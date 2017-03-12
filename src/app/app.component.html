@@ -1,3 +1,5 @@
-<h1>
-  {{title}}
-</h1>
+<mg-list [data]="data">
+  <ng-template let-row mgItem>
+    item:{{row}}
+  </ng-template>
+</mg-list>
