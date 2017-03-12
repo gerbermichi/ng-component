@@ -25,6 +25,13 @@ export class AppComponent implements OnInit {
   }
 
   update(q: string) {
-    this.tableData.next([new Person(q,q)]);
+
+    const fake = [];
+
+    for(let i = 0; i < 100; i++){
+      fake.push(new Person(q,q));
+    }
+
+    this.tableData.next(fake);
   }
 }
