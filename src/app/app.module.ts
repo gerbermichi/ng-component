@@ -4,14 +4,14 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {AppComponent} from './app.component';
-import {MgTable, MgColumn, MgColumnTemplate} from "./table/mg-table.component";
+import {MgTableComponent, MgColumnDirective, MgColumnTemplateDirective} from "./table/mg-table.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    MgTable,
-    MgColumn,
-    MgColumnTemplate
+    MgTableComponent,
+    MgColumnDirective,
+    MgColumnTemplateDirective
 
   ],
   imports: [

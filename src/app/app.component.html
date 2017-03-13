@@ -1,11 +1,25 @@
-
 Search: {{q}}
 
 <mg-table [data]="tableData" [(q)]="q" (qChange)="update($event)">
-  <mg-column [header]="'First Name'" [property]="'firstName'"></mg-column>
-  <mg-column [header]="'Last Name'" [property]="'lastName'">
-    <ng-template mgColumnTemplate let-value let-index="index">
-      <b>{{index}} {{value}}</b>
-    </ng-template>
-  </mg-column>
+
+    <mg-column [header]="'ID'" [property]="'id'">
+        <ng-template mgColumnTemplate let-index="index">
+            <b>{{index}}</b>
+        </ng-template>
+    </mg-column>
+
+    <mg-column [header]="'Last Name'" [property]="'lastName'">
+        <ng-template mgColumnTemplate let-value let-index="index">
+            <b>{{value}}</b>
+        </ng-template>
+    </mg-column>
+
+    <mg-column [header]="'First Name'" [property]="'firstName'"></mg-column>
+
+    <mg-column [header]="'E-Mail'" [property]="'email'">
+        <ng-template mgColumnTemplate let-value let-index="index">
+            <b>{{value}}</b>
+        </ng-template>
+    </mg-column>
+
 </mg-table>
