@@ -1,66 +1,64 @@
-import {
-  Component, Input, QueryList, Directive, AfterContentInit, ContentChildren, TemplateRef,
-  EventEmitter, Output
-} from "@angular/core";
-import {Observable} from "rxjs";
-@Directive({
-  selector: '[mgColumnTemplate]'
-})
-export class MgColumnTemplate {
-  constructor(public templateRef: TemplateRef<MgTable>) {
-  }
+import {AfterContentInit, Component, ContentChildren, Directive, EventEmitter, Input, Output, QueryList, TemplateRef} from '@angular/core';
+import {Observable} from 'rxjs';
 
-  @Input('property') property: string
+@Directive({
+    selector: '[mgColumnTemplate]'
+})
+export class MgColumnTemplateDirective {
+    constructor(public templateRef: TemplateRef<MgTableComponent>) {
+    }
 }
 
 @Directive({
-  selector: 'mg-column'
+    selector: 'mg-column'
 })
-export class MgColumn {
+export class MgColumnDirective {
 
-  @Input('header') header: string;
-  @Input('property') property: string;
+    @Input('header') header: string;
+    @Input('property') property: string;
 
-  @ContentChildren(MgColumnTemplate) templates: QueryList<MgColumnTemplate>;
+    @ContentChildren(MgColumnTemplateDirective) templates: QueryList<MgColumnTemplateDirective>;
 
-  hasTemplate(): boolean {
-    return this.templates.length > 0;
-  }
+    hasTemplate(): boolean {
+        return this.templates.length > 0;
+    }
 
-  get template(): MgColumnTemplate {
-    return this.templates.first;
-  }
+    get template(): MgColumnTemplateDirective {
+        return this.templates.first;
+    }
 }
 
 @Component({
-  selector: 'mg-table',
-  template: `
-    <h1>mg-table</h1>
-    
-    <input type="search" [ngModel]="q" (ngModelChange)="qChange.emit($event)"/>
-    
-    <table>
-      <tr>
-        <th *ngFor="let column of columns">{{column.header}}</th>
-      </tr>
-      <tr *ngFor="let row of data | async; let i = index">
-        <td *ngFor="let column of columns">
-          <span *ngIf="!column.hasTemplate()">{{row[column.property]}}</span>
-          <ng-template *ngIf="column.hasTemplate()" [ngTemplateOutlet]="column.template.templateRef" [ngOutletContext]="{$implicit: row[column.property], index:i}" ></ng-template>
-        </td>
-      </tr>
-    </table>
-    
-  `
+    selector: 'mg-table',
+    styleUrls: ['./mg-table.component.css'],
+    template: `
+        <h1>mg-table</h1>
+        
+        <input type="search" [ngModel]="q" (ngModelChange)="qChange.emit($event)"/>
+        
+        <table>
+          <thead>
+              <th *ngFor="let column of columns">{{column.header}}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of data | async; let i = index">
+              <td *ngFor="let column of columns">
+                <span *ngIf="!column.hasTemplate()">{{row[column.property]}}</span>
+                <ng-template *ngIf="column.hasTemplate()" [ngTemplateOutlet]="column.template.templateRef" [ngOutletContext]="{$implicit: row[column.property], index:i}" ></ng-template>
+              </td>
+            </tr>
+          </tbody>
+        </table> 
+
+      `
 })
-export class MgTable implements AfterContentInit {
-  @Input('data') data: Observable<string>;
+export class MgTableComponent {
 
-  @Input('q') q;
-  @Output('qChange') qChange = new EventEmitter();
+    @Input('data') data: Observable<string>;
 
-  @ContentChildren(MgColumn) columns: QueryList<MgColumn>;
+    @Input('q') q;
+    @Output('qChange') qChange = new EventEmitter();
 
-  ngAfterContentInit() {
-  }
+    @ContentChildren(MgColumnDirective) columns: QueryList<MgColumnDirective>;
+
 }

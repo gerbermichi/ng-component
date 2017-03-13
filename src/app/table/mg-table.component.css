@@ -1,0 +1,7 @@
+td, th {
+    padding: 0.25rem;
+}
+
+th {
+    text-align: left;
+}
